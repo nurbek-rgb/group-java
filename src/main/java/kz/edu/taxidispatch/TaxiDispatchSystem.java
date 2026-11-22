@@ -30,10 +30,6 @@ import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.stream.Collectors;
 
-/**
- * Учебный MVP диспетчерской службы такси.
- * Основные части проекта собраны в одном файле, чтобы их было проще объяснять на защите.
- */
 public class TaxiDispatchSystem {
 
     public static void main(String[] args) throws Exception {
@@ -464,7 +460,6 @@ public class TaxiDispatchSystem {
             }
         }
 
-        /** Одна транзакция меняет водителя, заказ и создаёт поездку. */
         public Trip assignDriver(RideOrder order, Driver driver, BigDecimal price) {
             String updateDriver = "UPDATE drivers SET status='BUSY' WHERE id=? AND status='AVAILABLE'";
             String updateOrder = "UPDATE orders SET status='ASSIGNED' WHERE id=?";
@@ -601,7 +596,6 @@ public class TaxiDispatchSystem {
                 try {
                     RideOrder order = orderQueue.poll(200, TimeUnit.MILLISECONDS);
                     if (order != null && assignNow(order).isEmpty() && running) {
-                        // Если все водители заняты, заказ возвращается в очередь и ждёт.
                         TimeUnit.MILLISECONDS.sleep(100);
                         orderQueue.offer(order);
                     }
